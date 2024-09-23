@@ -11,7 +11,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/login',[UserController::class, 'index']) ->name('index');
+/* Route::get('/login',[UserController::class, 'index']) ->name('index'); */
 
 
 /* OPEN AI ROUTES */
@@ -22,9 +22,9 @@ Route::get('/login',[UserController::class, 'index']) ->name('index');
 
 /* LOGIN AND REGISTER ROUTES */
 
-Route::post('loggingin',[UserController::class, 'loggingin'])->name('loggingin');
+/* Route::post('loggingin',[UserController::class, 'loggingin'])->name('loggingin');
 Route::get('/register', [RegisterController::class, 'index'])->name('register');
-Route::post('userRegister', [RegisterController::class, 'userRegister'])->name('userRegister');
+Route::post('userRegister', [RegisterController::class, 'userRegister'])->name('userRegister'); */
 
 //RUTAS UTILIZANDO AUTH
 /* Route::get('/register', [RegisterController::class, 'index'])->name('register');

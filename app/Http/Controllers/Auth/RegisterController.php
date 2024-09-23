@@ -43,5 +43,7 @@ class RegisterController extends Controller
             'status' => 'success',
             'user' => $user,
         ], 201);
+
+        /* return redirect()->route('login')->with('success', 'Usuario registrado exitosamente.'); */
     }
 }
