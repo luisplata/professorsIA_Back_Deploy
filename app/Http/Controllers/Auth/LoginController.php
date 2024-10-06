@@ -22,7 +22,15 @@ class LoginController extends Controller
             return response()->json(['error' => 'No se pudo crear el token'], 500);
         }
 
-        return response()->json(['token' => $token]);
+        $expiration = JWTAuth::factory()->getTTL() * 60;
+
+        return response()->json([
+            'credentials' => $credentials,
+            'token' => $token,
+            'expires_in' => $expiration,
+            'message' => 'Login successful',
+            'error' => null, 
+        ])->cookie('token', $token, $expiration, '/', null, true, true);;
     }
 
     // Método para cerrar sesión (invalidar el token)

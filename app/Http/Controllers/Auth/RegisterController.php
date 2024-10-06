@@ -14,11 +14,12 @@ class RegisterController extends Controller
     {
         // Validación de los datos
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'lastName' => 'required|string|max:255',
-            'email' => 'required|string|unique:users|max:255',
-            'password' => 'required|string|min:8',
-            'confirmPassword' => 'required', 'string', 'min:8',
+            'name' => 'required|string|max:250',
+            'lastName' => 'required|string|max:250',
+            'phoneNumber' => 'required|string|max:13',
+            'email' => 'required|string|unique:users|max:250',
+            'password' => 'required|string|min:8|max:50',
+            'confirmPassword' => 'required', 'string', 'min:8|max:50',
         ]);
 
         // Si la validación falla, retorna los errores
@@ -33,6 +34,7 @@ class RegisterController extends Controller
         $user = User::create([
             'name' => $request->name,
             'lastName' => $request->lastName,
+            'phoneNumber' => $request->phoneNumber,
             'email' => $request->email,
             'password' => Hash::make($request->password), // Hashear la contraseña
             'confirmPassword' => Hash::make($request->password), // Hashear la confirmacion de la contraseña
