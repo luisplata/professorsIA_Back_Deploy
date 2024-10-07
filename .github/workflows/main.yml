@@ -1,0 +1,27 @@
+name: Create DateTime File
+
+on:
+  workflow_dispatch: {}
+  push:
+    branches:
+      - main
+
+jobs:
+  create-file:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Execute SSH commands to create date-time file
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USER }}
+        key: ${{ secrets.SSH_KEY }}
+        port: ${{ secrets.SSH_PORT }}
+        script: |
+          echo "Creating date-time file on server..."
+          DATE=$(date '+%Y-%m-%d_%H-%M-%S')
+          echo "Current date and time: $DATE" > ~/datetime_$DATE.txt
