@@ -22,7 +22,7 @@ class RegisterController extends Controller
             'confirmPassword' => 'required', 'string', 'min:8|max:50',
         ]);
 
-        
+
         // Si la validación falla, retorna los errores
         if ($validator->fails()) {
             return response()->json([
@@ -30,7 +30,7 @@ class RegisterController extends Controller
                 'errors' => $validator->errors(),
             ], 422);
         }
-
+        //HOLA MUNDO
         // Crear el usuario
         $user = User::create([
             'name' => $request->name,
