@@ -22,9 +22,9 @@ jobs:
         password: ${{ secrets.SSH_PASSWORD }}
         port: ${{ secrets.SSH_PORT }}
         script: |
-          SECRET_DIR=${{ secrets.SECRET_DIR }}
-          cd $SECRET_DIR
-          LOG_FILE="deployment_$(date '+%Y-%m-%d_%H-%M-%S').log"
+          APP_DIR=${{ secrets.APP_DIR }}
+          cd $APP_DIR
+          LOG_FILE="$APP_DIR/deployment_$(date '+%Y-%m-%d_%H-%M-%S').log"
           { 
             git pull origin main &&
             php artisan migrate:fresh --force &&
@@ -32,16 +32,3 @@ jobs:
           } > $LOG_FILE 2>&1 || {
             echo "An error occurred during deployment. See $LOG_FILE for details."
           }
-
-    - name: Install sshpass
-      run: sudo apt-get install sshpass
-
-    - name: Download log file from server
-      run: |
-        sshpass -p ${{ secrets.SSH_PASSWORD }} scp -P ${{ secrets.SSH_PORT }} -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.SECRET_DIR }}/$LOG_FILE .
-
-    - name: Upload log file as artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: deployment-log
-        path: $LOG_FILE
