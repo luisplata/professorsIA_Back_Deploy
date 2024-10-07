@@ -24,4 +24,4 @@ jobs:
         script: |
           echo "Creating date-time file on server..."
           DATE=$(date '+%Y-%m-%d_%H-%M-%S')
-          echo "Current date and time: $DATE" > /path/to/your/directory/datetime_$DATE.txt
+          echo "Current date and time: $DATE" > ~/datetime_$DATE.txt
