@@ -38,7 +38,7 @@ jobs:
         scp -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.SECRET_DIR }}/$LOG_FILE .
 
     - name: Upload log file as artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: deployment-log
         path: $LOG_FILE
