@@ -30,7 +30,7 @@ class RegisterController extends Controller
                 'errors' => $validator->errors(),
             ], 422);
         }
-        //HOLA MUNDO
+        
         // Crear el usuario
         $user = User::create([
             'name' => $request->name,
