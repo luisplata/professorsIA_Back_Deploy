@@ -35,7 +35,7 @@ jobs:
 
     - name: Download log file from server
       run: |
-        scp -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.SECRET_DIR }}/$LOG_FILE .
+        scp -P ${{ secrets.SSH_PORT }} -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.SECRET_DIR }}/$LOG_FILE .
 
     - name: Upload log file as artifact
       uses: actions/upload-artifact@v4
