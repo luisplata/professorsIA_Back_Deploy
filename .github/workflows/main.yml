@@ -1,4 +1,4 @@
-name: Run commands in server
+name: Deploy App
 
 on:
   workflow_dispatch: {}
@@ -7,14 +7,14 @@ on:
       - main
 
 jobs:
-  create-file:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Execute SSH commands to create date-time file
+    - name: Execute SSH commands
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.SSH_HOST }}
@@ -22,6 +22,13 @@ jobs:
         password: ${{ secrets.SSH_PASSWORD }}
         port: ${{ secrets.SSH_PORT }}
         script: |
-          echo "Creating date-time file on server..."
-          DATE=$(date '+%Y-%m-%d_%H-%M-%S')
-          echo "Current date and time: $DATE" > ~/datetime_$DATE.txt
+          SECRET_DIR=${{ secrets.APP_DIR }}
+          cd $SECRET_DIR
+          LOG_FILE="deployment_$(date '+%Y-%m-%d_%H-%M-%S').log"
+          { 
+            git pull origin main &&
+            php artisan migrate:fresh --force &&
+            php artisan db:seed --force
+          } > $LOG_FILE 2>&1 || {
+            echo "An error occurred during deployment. See $LOG_FILE for details."
+          }
