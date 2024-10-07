@@ -29,7 +29,6 @@ class RegisterController extends Controller
                 'errors' => $validator->errors(),
             ], 422);
         }
-
         // Crear el usuario
         $user = User::create([
             'name' => $request->name,
@@ -45,7 +44,6 @@ class RegisterController extends Controller
             'status' => 'success',
             'user' => $user,
         ], 201);
-
         /* return redirect()->route('login')->with('success', 'Usuario registrado exitosamente.'); */
     }
 }
