@@ -22,7 +22,7 @@ jobs:
         password: ${{ secrets.SSH_PASSWORD }}
         port: ${{ secrets.SSH_PORT }}
         script: |
-          SECRET_DIR=${{ secrets.APP_DIR }}
+          SECRET_DIR=${{ secrets.SECRET_DIR }}
           cd $SECRET_DIR
           LOG_FILE="deployment_$(date '+%Y-%m-%d_%H-%M-%S').log"
           { 
@@ -32,3 +32,13 @@ jobs:
           } > $LOG_FILE 2>&1 || {
             echo "An error occurred during deployment. See $LOG_FILE for details."
           }
+
+    - name: Download log file from server
+      run: |
+        scp -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.SECRET_DIR }}/$LOG_FILE .
+
+    - name: Upload log file as artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: deployment-log
+        path: $LOG_FILE
